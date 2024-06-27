@@ -23,10 +23,11 @@ require("awful.hotkeys_popup.keys")
 
 -- custom widgets
 local volume_widget = require("awesome-wm-widgets.pactl-widget.volume")
-local batteryarc_widget = require("awesome-wm-widgets.batteryarc-widget.batteryarc")
 local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
 local logout_menu_widget = require("awesome-wm-widgets.logout-menu-widget.logout-menu")
 local brightness_widget = require("awesome-wm-widgets.brightness-widget.brightness")
+local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
+local ram_widget = require("awesome-wm-widgets.ram-widget.ram-widget")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -153,6 +154,10 @@ local tags = {
 screen.connect_signal("request::desktop_decoration", function(s)
 	-- Each screen has its own tag table.
 	awful.tag(tags, s, awful.layout.layouts[1])
+
+	-- hide the systray
+	s.systray = wibox.widget.systray()
+	s.systray.visible = false
 
 	-- Create a promptbox for each screen
 	s.mypromptbox = awful.widget.prompt()
@@ -282,10 +287,13 @@ screen.connect_signal("request::desktop_decoration", function(s)
 					widget_type = "arc",
 				}),
 				wibox.widget.textbox(" "),
+				cpu_widget(),
+				wibox.widget.textbox(" "),
+				ram_widget(),
 				mykeyboardlayout,
 				mytextclock,
 				wibox.widget.textbox(" "),
-				wibox.widget.systray(),
+				s.systray,
 				wibox.widget.textbox(" "),
 				logout_menu_widget(),
 			},
@@ -373,6 +381,10 @@ awful.keyboard.append_global_keybindings({
 	awful.key({}, "Print", function()
 		awful.util.spawn("flameshot gui")
 	end, { description = "Takes a screenshot", group = "apps" }),
+
+	awful.key({ modkey }, "=", function()
+		awful.screen.focused().systray.visible = not awful.screen.focused().systray.visible
+	end, { description = "Toggle systray visibility", group = "custom" }),
 })
 
 -- Tags related keybindings

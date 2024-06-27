@@ -87,7 +87,6 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 
 	title = wezterm.truncate_right(tab_number .. ": " .. title .. " ", max_width - 2)
 
-
 	return {
 		-- { Background = {Color= c.lightfg} },
 		{ Text = " " },
