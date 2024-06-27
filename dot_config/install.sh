@@ -23,7 +23,8 @@ yay -S ttf-maple \
   bat \
   lazygit \
   make \
-  chezmoi
+  chezmoi \
+  bruno
 
 chsh -s /usr/bin/zsh
 nvm install --lts
