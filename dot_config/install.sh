@@ -20,8 +20,13 @@ yay -S ttf-maple \
   lazygit \
   make \
   chezmoi \
-  bruno \
-  ttf-iosevka-nerd
+  bruno-bin \
+  ttf-iosevka-nerd \
+  slack-desktop \
+  brave-bin \
+  docker-desktop \
+  fontpreview \
+  flameshot
 
 chsh -s /usr/bin/zsh
 nvm install --lts
