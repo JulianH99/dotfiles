@@ -140,10 +140,10 @@ mytextclock = wibox.widget.textclock()
 local text_tags = { terminal = "terminal", web = "web", slack = "slack", spotify = "spotify" }
 
 local tags = {
-	"terminal",
-	"web",
-	"slack",
-	"spotify",
+	" ",
+	" ",
+	" ",
+	" ",
 	"5",
 	"6",
 	"7",
@@ -273,6 +273,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
 	s.mywibox = awful.wibar({
 		position = "top",
 		screen = s,
+		bg = beautiful.bg_normal .. "ee",
 		widget = {
 			layout = wibox.layout.align.horizontal,
 			expand = "none",
@@ -283,10 +284,14 @@ screen.connect_signal("request::desktop_decoration", function(s)
 			},
 			{ -- Right widgets
 				layout = wibox.layout.fixed.horizontal,
-				volume_widget({
-					widget_type = "arc",
-				}),
-				wibox.widget.textbox(" "),
+				{
+					layout = wibox.layout.fixed.horizontal,
+					wibox.widget.textbox(" "),
+					volume_widget({
+						widget_type = "horizontal_bar",
+					}),
+				},
+				-- wibox.widget.textbox(" "),
 				cpu_widget(),
 				wibox.widget.textbox(" "),
 				ram_widget(),
@@ -348,10 +353,10 @@ awful.keyboard.append_global_keybindings({
 
 	-- media keys
 	awful.key({}, "XF86AudioRaiseVolume", function()
-		volume_widget.inc()
+		volume_widget.inc(2)
 	end),
 	awful.key({}, "XF86AudioLowerVolume", function()
-		volume_widget.dec()
+		volume_widget.dec(2)
 	end),
 	awful.key({}, "XF86AudioMute", function()
 		volume_widget.toggle()

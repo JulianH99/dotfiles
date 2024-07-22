@@ -107,7 +107,7 @@ config.color_scheme = "Gruvbox Dark (Gogh)"
 -- config.font = wezterm.font 'RecMonoDuotone NF'
 -- () => {}
 local font_features = { "liga=1", "dlig=1" }
-config.font = wezterm.font({ family = "Maple Mono NF", harfbuzz_features = font_features })
+config.font = wezterm.font({ family = "Iosevka NF", harfbuzz_features = font_features })
 -- config.font = wezterm.font({ family = "CommitMono", harfbuzz_features = font_features })
 -- config.font = wezterm.font({ family = "Photonico Code", harfbuzz_features = font_features })
 config.line_height = 1

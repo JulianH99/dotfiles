@@ -24,13 +24,13 @@ theme.fg_focus = "#1d2021"
 theme.fg_urgent = "#fbf1c7"
 theme.fg_minimize = "#cc241d"
 
-theme.useless_gap = dpi(3)
+theme.useless_gap = dpi(2)
 theme.border_width = dpi(1)
 theme.border_normal = "#a89984"
 theme.border_focus = "#458885"
 theme.border_marked = "#d77921"
 
-theme.font = "Maple Mono NF 11"
+theme.font = "Iosevka NF 11"
 
 theme.taglist_bg_occupied = "#665c54"
 theme.taglist_fg_occupied = "#d5c4a1"
@@ -124,6 +124,6 @@ theme.awesome_icon = theme_assets.awesome_icon(theme.menu_height, theme.bg_focus
 
 -- Define the icon theme for application icons. If not set then the icons
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
-theme.icon_theme = nil
+theme.icon_theme = "elementary-kde"
 
 return theme
