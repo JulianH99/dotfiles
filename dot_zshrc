@@ -111,3 +111,6 @@ export PATH="$PATH:/usr/local/share/dotnet"
 
 
 export PATH="/opt/warden/bin:$PATH"
+
+
+nvm use stable
