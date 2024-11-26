@@ -4,6 +4,7 @@ local config = wezterm.config_builder()
 
 config.max_fps = 250
 config.default_cursor_style = "SteadyBar"
+config.enable_wayland = false
 
 -- shell
 config.default_prog = { "/usr/bin/zsh" }
