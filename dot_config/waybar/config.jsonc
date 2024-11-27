@@ -13,6 +13,7 @@
     "hyprland/workspaces"
   ],
   "modules-right": [
+    "custom/notifications",
     "clock",
     "pulseaudio",
     "cpu",
@@ -36,12 +37,8 @@
       "1": "",
       "2": "󰈹",
       "3": "",
-      "4": "",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9"
+      "4": "",
+      "default": ""
     },
     "persistent-workspaces": {
       "*": 9
@@ -106,8 +103,8 @@
         "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
       },
       "actions": {
-         "on-scroll-up": "shift_up",
-         "on-scroll-down": "shift_down"
+        "on-scroll-up": "shift_up",
+        "on-scroll-down": "shift_down"
       }
     }
   },
@@ -166,13 +163,25 @@
   "custom/power": {
     "format": "⏻ ",
     "tooltip": false,
-    "menu": "on-click",
-    "menu-file": "$HOME/.config/waybar/power_menu.xml", // Menu file in resources folder
-    "menu-actions": {
-      "shutdown": "shutdown",
-      "reboot": "reboot",
-      "suspend": "systemctl suspend",
-      "hibernate": "systemctl hibernate"
+    "on-click": "nwg-bar"
+  },
+  "custom/notifications": {
+    "format": "{icon}",
+    "tooltip": false,
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "sleep 0.1 && swaync-client -t -sw",
+    "escape": true,
+    "format-icons": {
+      "notifications": "",
+      "none": "",
+      "dnd-notification": "",
+      "dnd-none": "󰂛",
+      "inhibited-notification": "",
+      "inhibited-none": "",
+      "dnd-inhibited-notification": "",
+      "dnd-inhibited-none": ""
     }
   }
 }

@@ -65,7 +65,7 @@ window#waybar.fullscreen .modules-left {
 }
 
 window#waybar.firefox .modules-left {
-  background-color: #e7844e;
+  background-color: #fe8019;
   color: #fff;
 }
 
@@ -125,7 +125,8 @@ window#waybar.firefox .modules-left {
 #memory,
 #language,
 #tray,
-#custom-power {
+#custom-power,
+#custom-notifications {
   border-radius: 10px;
   padding-left: 10px;
   padding-right: 10px;
@@ -190,4 +191,9 @@ window#waybar.firefox .modules-left {
 #custom-power:hover {
   background-color: #cd251b;
   color: #ddc7a1;
+}
+
+#custom-notifications {
+  background-color: #d4be98;
+  /* padding-right: 13px; */
 }

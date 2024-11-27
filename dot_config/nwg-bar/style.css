@@ -1,0 +1,61 @@
+window {
+  background-color: #45403d;
+  border-radius: 10px;
+}
+
+/* Outer bar container, takes all the window width/height */
+#outer-box {
+  margin: 0px;
+}
+
+/* Inner bar container, surrounds buttons */
+#inner-box {
+  /* background-color: rgba (0, 0, 0, 0.85); */
+  border-radius: 10px;
+  border-style: none;
+  border-width: 1px;
+  border-color: rgba (156, 142, 122, 0.7);
+  padding: 5px;
+  margin: 5px;
+}
+
+button,
+image {
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+button {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 5px;
+}
+
+button:hover {
+  background-color: #282828;
+}
+
+/* lock button */
+button:nth-child(1):hover {
+  background-color: #0e363e;
+}
+
+/* logout button */
+button:nth-child(2):hover {
+  background-color: #374141;
+}
+
+/* restart button */
+button:nth-child(3):hover {
+  background-color: #34381b;
+}
+
+/* shutdown button */
+button:last-child {
+  background-color: #402120;
+}
+
+button:last-child:hover {
+  color: #ea6962;
+}
