@@ -110,6 +110,7 @@ config.color_scheme = "Gruvbox Dark (Gogh)"
 -- () => {}
 local font_features = { "liga=1", "dlig=1" }
 config.font = wezterm.font({ family = "Iosevka NF", harfbuzz_features = font_features })
+-- config.font = wezterm.font({ family = "Maple Mono NF", harfbuzz_features = font_features })
 -- config.font = wezterm.font({ family = "Monoid Nerd Font", harfbuzz_features = font_features })
 config.line_height = 1
 -- config.font = wezterm.font("Fantasque Sans Mono")
@@ -127,7 +128,7 @@ config.font_size = 15
 config.keys = {
 	{
 		key = "w",
-		mods = "ALT|CTRL",
+		mods = "WIN|CTRL",
 		action = wezterm.action.CloseCurrentPane({ confirm = false }),
 	},
 	{
