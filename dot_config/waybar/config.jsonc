@@ -89,7 +89,7 @@
     // "timezone": "America/New_York",
     "format": "{:%R   %a %d %b %Y}",
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
-    "on-click": "wezterm start -- calcurse",
+    "on-click": "kitty -- calcurse",
     "calendar": {
       "mode": "year",
       "mode-mon-col": 3,
@@ -111,7 +111,7 @@
   "cpu": {
     "format": "{usage}% ",
     "tooltip": false,
-    "on-click": "wezterm start -- btop"
+    "on-click": "kitty -- btop"
   },
   "memory": {
     "format": "{}% "
@@ -139,7 +139,7 @@
   },
   "pulseaudio": {
     "scroll-step": 5, // %, can be a float
-    "format": "{volume}% {icon} {format_source}",
+    "format": "{volume}% {icon}   {format_source}",
     "format-bluetooth": "{volume}% {icon} {format_source}",
     "format-bluetooth-muted": " {icon} {format_source}",
     "format-muted": " {format_source}",

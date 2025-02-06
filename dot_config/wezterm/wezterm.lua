@@ -105,24 +105,15 @@ config.color_scheme = "Gruvbox Dark (Gogh)"
 -- config.color_scheme = "Kanagawa (Gogh)"
 -- config.color_scheme = "kanagawabones"
 
--- font
--- config.font = wezterm.font 'RecMonoDuotone NF'
--- () => {}
-local font_features = { "liga=1", "dlig=1" }
-config.font = wezterm.font({ family = "Iosevka NF", harfbuzz_features = font_features })
--- config.font = wezterm.font({ family = "Maple Mono NF", harfbuzz_features = font_features })
--- config.font = wezterm.font({ family = "Monoid Nerd Font", harfbuzz_features = font_features })
+config.font = wezterm.font_with_fallback({
+	-- { family = "0xproto", weight = "Regular" },
+	{ family = "IBM Plex Mono", weight = "Regular" },
+	"Iosevka NF",
+	"Symbols Nerd Font",
+})
+
 config.line_height = 1
--- config.font = wezterm.font("Fantasque Sans Mono")
-
--- config.font_rules = {
--- 	{
--- 		italic = true,
--- 		font = wezterm.font("Fantasque Sans Mono", { italic = true }),
--- 	},
--- }
-
-config.font_size = 15
+config.font_size = 14
 
 -- keybindings
 config.keys = {

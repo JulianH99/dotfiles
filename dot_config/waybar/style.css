@@ -1,6 +1,9 @@
 * {
   /* `otf-font-awesome` is required to be installed for icons */
-  font-family: FontAwesome, "Iosevka NF", Helvetica, Arial, sans-serif;
+  font-family: FontAwesome, "IBM Plex Mono", "Iosevka NF", Helvetica, Arial,
+    sans-serif;
+
+  font-weight: 500;
   font-size: 13px;
 }
 
@@ -32,7 +35,6 @@ window#waybar.solo {
 * Modules
 */
 
-.modules-left,
 .modules-center,
 .modules-right {
   padding-left: 10px;
@@ -56,15 +58,31 @@ button {
 *
 */
 
-window#waybar.empty .modules-left {
+.modules-left {
+  padding-left: 10px;
+}
+
+#window {
+  padding-left: 10px;
+  padding-right: 10px;
+  background: #32302f;
+  border-radius: 10px;
+}
+
+window#waybar.empty #window {
   background-color: transparent;
 }
 
-window#waybar.fullscreen .modules-left {
+window#waybar.firefox #window {
+  background-color: #d8a657;
+  color: #32302f;
+}
+
+window#waybar.fullscreen #window {
   background-color: #402120;
 }
 
-window#waybar.firefox .modules-left {
+window#waybar.firefox.fullscreen #window {
   background-color: #fe8019;
   color: #fff;
 }

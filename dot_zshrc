@@ -1,4 +1,3 @@
-
 export EDITOR='nvim'
 
 # User configuration
@@ -44,6 +43,7 @@ alias cd="z"
 alias findp="cd \$(fd . /home/julian/external/projects/work /home/julian/external/projects/personal --type=d --max-depth=2 | fzf)"
 alias setpersonalgit="git config user.name JulianH99 && git config user.email juliancorredor99@gmail.com"
 alias setworkgit="git config user.name ERJulian && git config user.email julian.barrios@powerdigitalmarketinginc.com"
+alias startserver="sudo systemctl start nginx && sudo systemctl start php-fpm"
 
 # nvm init
 [ -z "$NVM_DIR" ] && export NVM_DIR="$HOME/.nvm"
@@ -104,6 +104,8 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color=always -1 $realpath'
 zstyle ':fzf-tab:complete:z:*' fzf-preview 'ls --color=always -1 $realpath'
+zstyle ':fzf-tab:complete:cat:*' fzf-preview 'cat -1 $realpath'
+zstyle ':fzf-tab:complete:bat:*' fzf-preview 'bat --color=always --style=plain $realpath'
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export rvm_path=$HOME/.rvm
@@ -113,6 +115,11 @@ export PATH="$PATH:/usr/local/share/dotnet"
 
 
 export PATH="/opt/warden/bin:$PATH"
+export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 
 
 nvm use stable
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/home/julian/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
