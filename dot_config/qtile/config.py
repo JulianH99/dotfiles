@@ -119,11 +119,18 @@ keys = [
     Key(
         [mod, "control"],
         "q",
-        lazy.spawn("~/.config/qtile/powermenu.sh"),
+        lazy.spawn(os.path.expanduser("~/.config/qtile/powermenu.sh")),
         desc="Shutdown menu",
     ),
     # launchers
-    Key([mod], "d", lazy.spawn("rofi -show drun"), desc="Opens rofi drun launcher"),
+    Key(
+        [mod],
+        "d",
+        lazy.spawn(
+            os.path.expanduser("~/.config/qtile/launcher.sh"),
+        ),
+        desc="Opens rofi drun launcher",
+    ),
     Key(
         [mod, "shift"],
         "p",
@@ -278,9 +285,7 @@ screens = [
                 widget.Image(
                     filename=os.path.expanduser("~/.config/qtile/logo.png"),
                     margin=3,
-                    mouse_callbacks={
-                        "Button1": lazy.spawn("rofi -show drun")
-                    }
+                    mouse_callbacks={"Button1": lazy.spawn("rofi -show drun")},
                 ),
                 widget.Spacer(length=5),
                 widget.CurrentLayout(
@@ -341,6 +346,8 @@ screens = [
                 # volume
                 widget.PulseVolume(
                     background="#fabd2f",
+                    mute_format="",
+                    unmute_format="{volume}% ",
                     padding=5,
                     mouse_callbacks={"Button2": lazy.spawn("pavucontrol")},
                 ),
