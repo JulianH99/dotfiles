@@ -68,7 +68,7 @@ config.colors = {
 	},
 }
 
-function tab_title(tab_info)
+local function tab_title(tab_info)
 	local title = tab_info.tab_title
 	-- if the tab title is explicitly set, take that
 	if title and #title > 0 then
@@ -79,11 +79,11 @@ function tab_title(tab_info)
 	return tab_info.active_pane.title
 end
 
-wezterm.on("update-right-status", function(window, pane)
+wezterm.on("update-right-status", function(window, _)
 	window:set_right_status(window:active_workspace())
 end)
 
-wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
+wezterm.on("format-tab-title", function(tab, _, _, _, _, max_width)
 	local title = tab_title(tab)
 	local tab_number = tab.tab_index + 1
 
@@ -135,5 +135,23 @@ config.keys = {
 }
 
 config.warn_about_missing_glyphs = false
+
+local xcursor_theme = nil
+local xcursor_size = nil
+
+local success, stdout, _ =
+	wezterm.run_child_process({ "gsettings", "get", "org.gnome.desktop.interface", "cursor-theme" })
+if success then
+	xcursor_theme = stdout:gsub("'(.+)'\n", "%1")
+end
+
+local success, stdout, stderr =
+	wezterm.run_child_process({ "gsettings", "get", "org.gnome.desktop.interface", "cursor-size" })
+if success then
+	xcursor_size = tonumber(stdout)
+end
+
+config.xcursor_theme = xcursor_theme
+config.xcursor_size = xcursor_size
 
 return config
