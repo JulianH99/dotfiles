@@ -107,13 +107,13 @@ config.color_scheme = "Gruvbox Dark (Gogh)"
 
 config.font = wezterm.font_with_fallback({
 	-- { family = "0xproto", weight = "Regular" },
-	{ family = "IBM Plex Mono", weight = "Regular" },
+	-- { family = "IBM Plex Mono", weight = "Regular" },
 	"Iosevka NF",
 	"Symbols Nerd Font",
 })
 
 config.line_height = 1
-config.font_size = 14
+config.font_size = 15
 
 -- keybindings
 config.keys = {

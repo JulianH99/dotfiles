@@ -35,7 +35,6 @@ alias zshconfig="nvim ~/.zshrc"
 alias nconfig="nvim ~/.config/nvim"
 alias ls="exa --icons --git --no-filesize --long"
 alias cat="bat"
-alias lz="lazygit"
 alias yz="yazi"
 alias vim="nvim"
 alias v="nvim ."
@@ -45,11 +44,19 @@ alias setpersonalgit="git config user.name JulianH99 && git config user.email ju
 alias setworkgit="git config user.name ERJulian && git config user.email julian.barrios@powerdigitalmarketinginc.com"
 alias startserver="sudo systemctl start nginx && sudo systemctl start php-fpm"
 
+# git aliases
+alias lz="lazygit"
+alias gst="git status"
+alias gsw="git switch"
+alias gswc="git switch -c"
+alias gcm="git commit -m"
+alias gpo="git pull origin"
+
 # nvm init
 [ -z "$NVM_DIR" ] && export NVM_DIR="$HOME/.nvm"
 source /usr/share/nvm/nvm.sh
 source /usr/share/nvm/bash_completion
-source /usr/share/nvm/install-nvm-exec
+# source /usr/share/nvm/nvm-exec
 
 # pnpm
 export PNPM_HOME="/home/julian/.local/share/pnpm"
@@ -112,14 +119,11 @@ export rvm_path=$HOME/.rvm
 export PATH="$PATH:$HOME/.local/share/gem/ruby/3.0.0/bin"
 export PATH="$PATH:$HOME/go/bin"
 export PATH="$PATH:/usr/local/share/dotnet"
-
-
 export PATH="/opt/warden/bin:$PATH"
 export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 
 
 nvm use stable
-
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/home/julian/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+# . "$HOME/.atuin/bin/env"
+#
+# eval "$(atuin init zsh)"

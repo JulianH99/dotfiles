@@ -1,10 +1,10 @@
 * {
   /* `otf-font-awesome` is required to be installed for icons */
-  font-family: FontAwesome, "IBM Plex Mono", "Iosevka NF", Helvetica, Arial,
-    sans-serif;
+  font-family:
+    FontAwesome, "IBM Plex Mono", "Iosevka NF", Helvetica, Arial, sans-serif;
 
-  font-weight: 500;
-  font-size: 13px;
+  font-weight: 400;
+  font-size: 14px;
 }
 
 window#waybar {
@@ -91,7 +91,12 @@ window#waybar.firefox.fullscreen #window {
  * workspaces
  */
 
+#workspaces {
+  font-family: "Symbols Nerd Font Mono";
+}
+
 #workspaces button {
+  font-family: "Symbols Nerd Font Mono";
   padding: 0 5px;
   background-color: transparent;
   color: #ffffff;

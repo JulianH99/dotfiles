@@ -17,10 +17,12 @@ def run_once():
     launches = [
         # os.path.expanduser('~/.config/qtile/autostart.sh'),
         os.path.expanduser("~/.config/qtile/wallpaper-changer.sh"),
+        "xscreensaver --no-splash",
         "dunst",
         "nm-applet",
         "greenclip daemon",
         "setxkbmap eu",
+        "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1",
     ]
 
     for launch in launches:
@@ -135,7 +137,7 @@ keys = [
         [mod, "shift"],
         "p",
         lazy.spawn(
-            'rofi -modi "clipboard:greenclip print" -show clipboard -run-command "{cmd}"'
+            'rofi -modi "clipboard:greenclip print" -show clipboard -run-command "{cmd}" -theme launcher.rasi'
         ),
         desc="Open clipboard menu",
     ),
@@ -252,8 +254,8 @@ layout_options = {
 }
 layouts = [
     layout.MonadTall(**layout_options),
-    layout.Tile(**layout_options),
-    layout.Columns(**layout_options),
+    # layout.Tile(**layout_options),
+    # layout.Columns(**layout_options),
     layout.Max(**layout_options),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
