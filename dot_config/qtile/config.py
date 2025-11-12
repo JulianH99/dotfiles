@@ -3,12 +3,11 @@ from libqtile.config import Click, Drag, DropDown, Group, Key, Match, ScratchPad
 from libqtile.log_utils import logger
 from libqtile.lazy import lazy
 import os
-import subprocess
 
 # TODO: scratchpads
 
 mod = "mod4"
-terminal = "kitty"
+terminal = "ghostty"
 
 
 @hook.subscribe.startup_once
@@ -141,6 +140,12 @@ keys = [
         ),
         desc="Open clipboard menu",
     ),
+    Key(
+        [mod],
+        "b",
+        lazy.spawn("firefox"),
+        desc="Open firefox",
+    ),
     # multimedia
     Key(
         [],
@@ -269,7 +274,7 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font="IBM Plex Mono, Symbols Nerd Font",
+    font="Ubuntu, Symbols Nerd Font",
     fontsize=15,
     padding=3,
     foreground="#32302f",
@@ -279,25 +284,27 @@ extension_defaults = widget_defaults.copy()
 screens = [
     Screen(
         top=bar.Bar(
-            background="#32302f",
+            background="#000000",
             opacity=1,
             widgets=[
                 # left
-                widget.Spacer(length=10),
-                widget.Image(
-                    filename=os.path.expanduser("~/.config/qtile/logo.png"),
-                    margin=3,
-                    mouse_callbacks={"Button1": lazy.spawn("rofi -show drun")},
-                ),
+                # widget.Image(
+                #     filename=os.path.expanduser("~/.config/qtile/logo.png"),
+                #     margin=3,
+                #     mouse_callbacks={"Button1": lazy.spawn("rofi -show drun")},
+                # ),
                 widget.Spacer(length=5),
                 widget.CurrentLayout(
-                    background="#928374", padding=5, foreground="#ebdbb2", opacity=1
+                    background="#000000", padding=5, foreground="#ffffff", opacity=1
+                ),
+                widget.TextBox(
+                    " ⏽ ", background="#000000", foreground="#ffffff", opacity=1
                 ),
                 widget.WindowName(
-                    max_chars=60,
+                    max_chars=80,
                     padding=5,
-                    background="#0d3138",
-                    foreground="#ebdbb2",
+                    background="#000000",
+                    foreground="#ffffff",
                     width=400,
                     scroll=True,
                     scroll_repeat=True,
@@ -307,10 +314,10 @@ screens = [
                 # center
                 widget.GroupBox(
                     highlight_method="block",
-                    active="#ebdbb2",
-                    inactive="#a89984",
-                    this_current_screen_border="#ebdbb2",
-                    block_highlight_text_color="#504945",
+                    active="#ffffff",
+                    inactive="#9a9996",
+                    this_current_screen_border="#f6f5f4",
+                    block_highlight_text_color="#241f31",
                     padding_x=5,
                     padding_y=4,
                     spacing=5,
@@ -318,36 +325,40 @@ screens = [
                     use_mouse_wheel=False,
                     urgent_alert_method="block",
                     # urgent_border="#d75f5f",
-                    urgent_text="#fb4934",
-                    background="#32302f",
+                    urgent_text="#e01b24",
+                    background="#000000",
                 ),
                 widget.Spacer(),
                 # right
                 # sys tray
-                widget.Systray(background="#504945", padding=2),
-                widget.Spacer(length=2),
+                widget.Systray(background="#000000", padding=3),
+                widget.Spacer(length=8),
+                widget.TextBox(
+                    "⏽", background="#000000", foreground="#ffffff", opacity=1
+                ),
                 # time
                 widget.Clock(
                     format="%H:%M",
-                    background="#fe8019",
-                    foreground="#32302f",
+                    background="#000000",
+                    foreground="#ffffff",
                     padding=10,
                 ),
-                widget.Spacer(length=2),
                 # date
                 widget.Clock(
                     format="%a %d %b of %G",
-                    background="#7daea3",
+                    background="#000000",
                     padding=10,
                     mouse_callbacks={
                         "Button1": lazy.spawn("/home/julian/.config/qtile/calendar.sh"),
                         "Button2": lazy.spawn("kitty -- calcurse"),
                     },
+                    foreground="#ffffff",
                 ),
                 widget.Spacer(length=2),
                 # volume
                 widget.PulseVolume(
-                    background="#fabd2f",
+                    background="#241f31",
+                    foreground="#ffffff",
                     mute_format="",
                     unmute_format="{volume}% ",
                     padding=5,
@@ -357,19 +368,24 @@ screens = [
                 # cpu
                 widget.CPU(
                     format="{load_percent} ",
-                    background="#b8bb26",
+                    background="#3d3846",
+                    foreground="#ffffff",
                     padding=5,
                     mouse_callbacks={"Button1": lazy.spawn("kitty -- btop")},
                 ),
                 widget.Spacer(length=2),
                 # memory
                 widget.Memory(
-                    format="{MemPercent}% ", background="#89b482", padding=5
+                    format="{MemPercent}% ",
+                    background="#5e5c64",
+                    padding=5,
+                    foreground="#ffffff",
                 ),
                 widget.Spacer(length=2),
                 # kbd
                 widget.KeyboardLayout(
-                    background="#d3869b",
+                    background="#77767b",
+                    foreground="#ffffff",
                     padding=5,
                     configured_keyboards=["eu", "us"],
                 ),
@@ -377,15 +393,15 @@ screens = [
                 # shutdown button
                 widget.TextBox(
                     text="⏻",
-                    background="#ea6962",
+                    background="#a51d2d",
+                    foreground="#ffffff",
                     padding=5,
                     mouse_callbacks={
                         "Button1": lazy.spawn("/home/julian/.config/qtile/powermenu.sh")
                     },
                 ),
-                widget.Spacer(length=10),
             ],
-            size=24,
+            size=26,
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),

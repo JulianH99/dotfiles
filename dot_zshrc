@@ -120,6 +120,7 @@ export PATH="$PATH:$HOME/.local/share/gem/ruby/3.0.0/bin"
 export PATH="$PATH:$HOME/go/bin"
 export PATH="$PATH:/usr/local/share/dotnet"
 export PATH="/opt/warden/bin:$PATH"
+export PATH="/home/julian/.bun/bin:$PATH"
 export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 
 

@@ -9,7 +9,7 @@
 
 
 * {
-  font: "IBM Plex Sans 12";
+  font: "Ubuntu 13";
 }
 
 /*****----- Configuration -----*****/
