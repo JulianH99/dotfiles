@@ -1,0 +1,29 @@
+font-family = "Fira Mono"
+font-size = 15
+theme = "Gruvbox Dark"
+
+cursor-style = "block"
+
+background-opacity = 1
+
+window-padding-x = 0
+window-padding-y = 0 
+window-decoration = false
+resize-overlay = "never"
+
+quick-terminal-position = "top"
+
+gtk-tabs-location = "bottom"
+gtk-wide-tabs = false
+
+adw-toolbar-style = "flat"
+
+keybind = ctrl+shift+p=toggle_tab_overview
+keybind = ctrl+shift+|=new_split:right
+keybind = ctrl+shift+-=new_split:down
+keybind = ctrl+shift+h=goto_split:left
+keybind = ctrl+shift+l=goto_split:right
+keybind = ctrl+shift+k=goto_split:top
+keybind = ctrl+shift+j=goto_split:bottom
+keybind = ctrl+shift+z=toggle_split_zoom
+keybind = ctrl+shift+w=close_surface
