@@ -59,11 +59,11 @@ source /usr/share/nvm/bash_completion
 # source /usr/share/nvm/nvm-exec
 
 # pnpm
-export PNPM_HOME="/home/julian/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
+# export PNPM_HOME="/home/julian/.local/share/pnpm"
+# case ":$PATH:" in
+#   *":$PNPM_HOME:"*) ;;
+#   *) export PATH="$PNPM_HOME:$PATH" ;;
+# esac
 # pnpm end
 
 ### Added by Zinit's installer
@@ -124,7 +124,19 @@ export PATH="/home/julian/.bun/bin:$PATH"
 export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 
 
-nvm use stable
 # . "$HOME/.atuin/bin/env"
 #
 # eval "$(atuin init zsh)"
+export PATH=$HOME/.local/bin:$PATH
+
+# bun completions
+[ -s "/home/julian/.bun/_bun" ] && source "/home/julian/.bun/_bun"
+
+
+fn scripts() {
+  cat $1 | jq .scripts
+}
+
+fn copy() {
+  cat $1 | xclip -selection clipboard
+}
