@@ -1,5 +1,5 @@
 font-family = "Iosevka"
-font-size = 15
+font-size = 14
 theme = "Gruvbox Dark"
 
 cursor-style = "block"
@@ -8,7 +8,7 @@ background-opacity = 1
 
 window-padding-x = 0
 window-padding-y = 0 
-window-decoration = false
+window-decoration = server
 resize-overlay = "never"
 
 quick-terminal-position = "top"

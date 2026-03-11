@@ -150,13 +150,13 @@ keys = [
     Key(
         [],
         "XF86AudioLowerVolume",
-        lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -4%"),
+        lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%"),
         desc="Lower volume",
     ),
     Key(
         [],
         "XF86AudioRaiseVolume",
-        lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +4%"),
+        lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%"),
         desc="Raise volume",
     ),
     Key(
@@ -356,7 +356,7 @@ screens = [
                 ),
                 widget.Spacer(length=2),
                 # volume
-                widget.PulseVolume(
+                widget.Volume(
                     background="#241f31",
                     foreground="#ffffff",
                     mute_format="",
