@@ -115,12 +115,14 @@ zstyle ':fzf-tab:complete:cat:*' fzf-preview 'cat -1 $realpath'
 zstyle ':fzf-tab:complete:bat:*' fzf-preview 'bat --color=always --style=plain $realpath'
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export MOZ_ENABLE_WAYLAND=1
 export rvm_path=$HOME/.rvm
 export PATH="$PATH:$HOME/.local/share/gem/ruby/3.0.0/bin"
 export PATH="$PATH:$HOME/go/bin"
 export PATH="$PATH:/usr/local/share/dotnet"
 export PATH="/opt/warden/bin:$PATH"
 export PATH="/home/julian/.bun/bin:$PATH"
+export PATH="/home/julian/.cargo/bin:$PATH"
 export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 
 
@@ -140,3 +142,185 @@ fn scripts() {
 fn copy() {
   cat $1 | xclip -selection clipboard
 }
+
+# >>> claude-guidelines pdm-init >>>
+export PDM_GUIDELINES="/home/julian/external/projects/work/gc/ai-guidelines"
+export PDM_WORKSPACE="/home/julian/.claude"
+
+pdm-init() {
+  local stack="${1:-auto}"
+  local team="${2:-webdev}"
+  local guidelines="${PDM_GUIDELINES:-$HOME/Claude-Guidelines}"
+
+  # ── Auto-detección de stack ──────────────────────────────────────────────
+  if [[ "$stack" == "auto" ]]; then
+    if [[ -f composer.json ]] && grep -q '"timber/timber"' composer.json 2>/dev/null; then
+      stack="wp"
+    elif [[ -f config/settings_schema.json ]] || \
+         compgen -G "sections/*.liquid" >/dev/null 2>&1 || \
+         compgen -G "*.liquid" >/dev/null 2>&1; then
+      stack="shopify"
+    else
+      echo "No pude detectar el stack. Uso: pdm-init [shopify|wp] [webdev|cro]" >&2
+      return 1
+    fi
+    echo "Stack detectado: $stack"
+  fi
+
+  # ── Flujo CRO — copia de plantilla, editable por proyecto ───────────────
+  if [[ "$team" == "cro" ]]; then
+    local template="$guidelines/cro/project-template.md"
+    if [[ ! -f "$template" ]]; then
+      echo "✗ No existe $template" >&2; return 1
+    fi
+    if [[ -e "./CLAUDE.md" ]]; then
+      printf "⚠  Ya existe CLAUDE.md. ¿Sobreescribir con plantilla CRO? [y/N] "
+      read -r _ow; [[ ! "$_ow" =~ ^[Yy]$ ]] && { echo "ℹ  Omitido."; return 0; }
+    fi
+    cp "$template" ./CLAUDE.md
+    echo "✓ CLAUDE.md copiado desde cro/project-template.md (editable localmente)"
+
+    if [[ -f "$guidelines/global/cursor/global.mdc" ]]; then
+      mkdir -p .cursor/rules
+      cp "$guidelines/global/cursor/global.mdc" .cursor/rules/global.mdc 2>/dev/null || true
+      [[ -f "$guidelines/cro/cursor/cro.mdc" ]] && \
+        cp "$guidelines/cro/cursor/cro.mdc" .cursor/rules/cro.mdc
+      echo "✓ Cursor rules copiadas en .cursor/rules/"
+    fi
+
+    _pdm_git_exclude
+    return 0
+  fi
+
+  # ── Flujo Web Dev — symlinks (se actualizan con git pull) ───────────────
+  local claude_source cursor_source
+  case "$stack" in
+    shopify)
+      claude_source="$guidelines/web-dev/shopify/claude/CLAUDE.md"
+      cursor_source="$guidelines/web-dev/shopify/cursor/shopify.mdc"
+      ;;
+    wp|wordpress)
+      claude_source="$guidelines/web-dev/wordpress/claude/CLAUDE.md"
+      cursor_source="$guidelines/web-dev/wordpress/cursor/wordpress.mdc"
+      ;;
+    *)
+      echo "Stack desconocido: $stack. Usa shopify|wp" >&2; return 1 ;;
+  esac
+
+  if [[ ! -f "$claude_source" ]]; then
+    echo "✗ No existe $claude_source" >&2; return 1
+  fi
+
+  # CLAUDE.md
+  if [[ -e "./CLAUDE.md" ]] && [[ ! -L "./CLAUDE.md" ]]; then
+    echo "⚠  Ya existe un CLAUDE.md real (no symlink)."
+    printf "   ¿Reemplazar con symlink al template del equipo? [r/S] "
+    read -r _ch
+    [[ "$_ch" =~ ^[rR]$ ]] && ln -sfn "$claude_source" ./CLAUDE.md && \
+      echo "✓ CLAUDE.md reemplazado → $claude_source" || echo "ℹ  CLAUDE.md omitido."
+  else
+    ln -sfn "$claude_source" ./CLAUDE.md
+    echo "✓ CLAUDE.md → $claude_source"
+  fi
+
+  # Cursor rules
+  mkdir -p .cursor/rules
+  ln -sfn "$guidelines/global/cursor/global.mdc" .cursor/rules/global.mdc
+  echo "✓ .cursor/rules/global.mdc → global/cursor/global.mdc"
+  if [[ -f "$cursor_source" ]]; then
+    ln -sfn "$cursor_source" ".cursor/rules/$(basename "$cursor_source")"
+    echo "✓ .cursor/rules/$(basename "$cursor_source") → $cursor_source"
+  fi
+
+  # Bundler (Shopify) — .claude/CLAUDE.md
+  if [[ "$stack" == "shopify" ]]; then
+    local bundler=""
+    if   grep -q '"build".*"vite'   package.json 2>/dev/null; then bundler="vite"
+    elif grep -q '"build".*"webpack' package.json 2>/dev/null; then bundler="webpack"
+    elif grep -q '"build".*"gulp'   package.json 2>/dev/null; then bundler="gulp"
+    elif [[ -f gulpfile.js ]] || [[ -f gulpfile.ts ]]; then bundler="gulp"
+    elif [[ -f vite.config.js ]] || [[ -f vite.config.ts ]]; then bundler="vite"
+    elif [[ -f webpack.config.js ]]; then bundler="webpack"
+    fi
+
+    if [[ -n "$bundler" ]] && [[ -f "$guidelines/web-dev/shopify/bundlers/${bundler}.md" ]]; then
+      mkdir -p .claude
+      if [[ -e ".claude/CLAUDE.md" ]] && [[ ! -L ".claude/CLAUDE.md" ]]; then
+        echo "⚠  .claude/CLAUDE.md existe como archivo real — no se sobreescribe."
+      else
+        ln -sfn "$guidelines/web-dev/shopify/bundlers/${bundler}.md" .claude/CLAUDE.md
+        echo "✓ .claude/CLAUDE.md → web-dev/shopify/bundlers/${bundler}.md"
+      fi
+    fi
+
+    # Hooks de Claude Code
+    local hooks_source="$guidelines/web-dev/shopify/claude-hooks"
+    if [[ -d "$hooks_source" ]]; then
+      mkdir -p .claude
+      ln -sfn "$hooks_source/hooks.json" .claude/hooks.json
+      echo "✓ .claude/hooks.json → web-dev/shopify/claude-hooks/hooks.json"
+      if [[ ! -d .claude/scripts ]] || [[ -z "$(ls .claude/scripts/ 2>/dev/null)" ]]; then
+        rm -rf .claude/scripts
+        ln -sfn "$hooks_source/scripts" .claude/scripts
+        echo "✓ .claude/scripts/ → web-dev/shopify/claude-hooks/scripts/"
+      fi
+
+      # Git hook pre-push universal
+      if [[ -d .git ]] && [[ -f ".claude/scripts/block-push-main.js" ]]; then
+        mkdir -p .git/hooks
+        cat > .git/hooks/pre-push << 'HOOK'
+#!/usr/bin/env sh
+node .claude/scripts/block-push-main.js "$@" || exit 1
+node .claude/scripts/pre-push-pull.js "$@" || exit 1
+HOOK
+        chmod +x .git/hooks/pre-push
+        echo "✓ .git/hooks/pre-push generado"
+      fi
+    fi
+  fi
+
+  # Copilot instructions (consolidado)
+  _pdm_generate_copilot "$guidelines" "$stack"
+
+  _pdm_git_exclude
+}
+
+_pdm_generate_copilot() {
+  local guidelines="$1" stack="$2"
+  local stack_claude
+  case "$stack" in
+    shopify)      stack_claude="$guidelines/web-dev/shopify/claude/CLAUDE.md" ;;
+    wp|wordpress) stack_claude="$guidelines/web-dev/wordpress/claude/CLAUDE.md" ;;
+    *) return ;;
+  esac
+  mkdir -p .github
+  {
+    cat "$guidelines/global/claude/CLAUDE.md"
+    printf '\n\n---\n\n'
+    cat "$stack_claude"
+    for skill_dir in "$guidelines/skills"/*/; do
+      [[ -f "$skill_dir/SKILL.md" ]] || continue
+      printf '\n\n---\n\n'
+      awk 'BEGIN{c=0}/^---$/{c++;next}c>=2{print}' "$skill_dir/SKILL.md"
+    done
+  } > .github/copilot-instructions.md
+  echo "✓ .github/copilot-instructions.md generado"
+}
+
+_pdm_git_exclude() {
+  [[ -d .git ]] || return 0
+  local entries=("CLAUDE.md" ".cursor/rules" ".claude/hooks.json" ".claude/scripts" ".github/copilot-instructions.md")
+  for entry in "${entries[@]}"; do
+    grep -qxF "$entry" .git/info/exclude 2>/dev/null || echo "$entry" >> .git/info/exclude
+  done
+  echo "✓ Entradas añadidas a .git/info/exclude"
+}
+
+# Aliases para compatibilidad hacia atrás
+claude-init()     { pdm-init "$@"; }
+pdm-claude-init() { pdm-init "$@"; }
+# <<< claude-guidelines pdm-init <<<
+
+# >>> claude-guidelines ait >>>
+alias ait="node ~/.ait/ait.js"
+# <<< claude-guidelines ait <<<
